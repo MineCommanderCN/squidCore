@@ -1,6 +1,6 @@
 #include "squidCore_lib.hpp"
 
-int printHello(const lcmd& args) {
+int printHello(const argsAry &args) {
 	std::cout << "Hello world!" << std::endl;
 	return 0;
 }
@@ -18,6 +18,7 @@ int main() {
 		std::string input;
 		std::cout << ">> ";
 		std::getline(std::cin, input);
-		sll::command.run(input);
+		sll::cmdContainer cmdct(input);
+		cmdct.run();
 	}
 }
