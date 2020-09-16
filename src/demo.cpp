@@ -8,7 +8,7 @@ int printHello(const argsAry &args) {
 
 
 void regist_cmd(void) {
-	sll::regcmd("test",printHello,1,1);
+	squidcore::regcmd("test",printHello,1,1);
 }
 
 
@@ -18,7 +18,7 @@ int main() {
 		std::string input;
 		std::cout << ">> ";
 		std::getline(std::cin, input);
-		sll::cmdContainer cmdct(input);
+		squidcore::cmdContainer cmdct(input);
 		cmdct.run();
 	}
 }
