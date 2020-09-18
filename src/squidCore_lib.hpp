@@ -12,9 +12,28 @@
 #include<fstream>
 #include<string>
 #include<sstream>
+union singleArg
+{
+    float num = 0;
+    const char* str;
+    operator float() {
+        return this->num;
+    }
+    operator char* () {
+        return (char*)(this->str);
+    }
+    singleArg operator= (const float numB) {
+        this->num = numB;
+        return *this;
+    }
+    singleArg operator= (const char* strP) {
+        this->str = strP;
+        return *this;
+    }
+};
+typedef std::vector<singleArg> argsAry;
+typedef int(*Fp)(argsAry args);
 
-typedef std::vector<std::string> argsAry;
-typedef int(*Fp)(const argsAry &args);
 namespace squidcore {
     const int EXIT_MAIN = 65536;
     const int MAXN = 2147483647;
@@ -24,6 +43,14 @@ namespace squidcore {
         int argcMax;
     };
     std::map<std::string, tCmdreg> cmd_register;    //first -> root command, second -> command info
+    template <class Ta, class Tb>
+    Tb atob(const Ta& t) {
+        std::stringstream temp;
+        temp << t;
+        Tb i;
+        temp >> i;
+        return i;
+    }
     argsAry compile(std::string str) {
         str += "\n";
         argsAry tmp;
@@ -31,7 +58,10 @@ namespace squidcore {
         int state = 0;
         for (std::string::iterator ii = str.begin(); ii != str.end(); ii++) {
             if (*ii == '\n') {
-                tmp.push_back(strtmp);
+                if (atob<float, std::string>(atob<std::string, float>(strtmp)) != strtmp)
+                    *tmp.end() = strtmp.c_str();
+                else
+                    *tmp.end() = atob<std::string, float>(strtmp);
                 return tmp;
             }
             if (state == 0) {
@@ -48,7 +78,10 @@ namespace squidcore {
             }
             else if (state == 1) {
                 if (*ii == ' ') {
-                    tmp.push_back(strtmp);
+                    if (atob<float, std::string>(atob<std::string, float>(strtmp)) != strtmp)
+                        *tmp.end() = strtmp.c_str();
+                    else
+                        *tmp.end() = atob<std::string, float>(strtmp);
                     strtmp.clear();
                     state = 0;
                 }
@@ -58,7 +91,10 @@ namespace squidcore {
             }
             else if (state == 2) {
                 if (*ii == '"') {
-                    tmp.push_back(strtmp);
+                    if (atob<float, std::string>(atob<std::string, float>(strtmp)) != strtmp)
+                        *tmp.end() = strtmp.c_str();
+                    else
+                        *tmp.end() = atob<std::string, float>(strtmp);
                     strtmp.clear();
                     state = 0;
                 }

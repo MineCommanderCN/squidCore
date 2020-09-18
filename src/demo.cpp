@@ -1,6 +1,6 @@
 #include "squidCore_lib.hpp"
 
-int printHello(const argsAry &args) {
+int printHello(argsAry args) {
 	std::cout << "Hello world!" << std::endl;
 	return 0;
 }
