@@ -1,5 +1,5 @@
 /*
-*   SquidCore v0.1.3
+*   SquidCore v0.1.4
 *   Copyright (C) MineCommander 2020, use MIT License
 *   Repo: https://github.com/MineCommanderCN/squidCore
 */
@@ -13,7 +13,7 @@
 #include<string>
 #include<sstream>
 
-namespace squidcore {
+namespace sqc {
 	typedef std::vector<std::string> argsAry;
     typedef int(*Fp)(const argsAry &args);
     const int EXIT_MAIN = 65536;
